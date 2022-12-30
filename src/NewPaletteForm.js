@@ -3,15 +3,16 @@ import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import PaletteFormNav from "./PaletteFormNav"
 import Drawer from "@material-ui/core/Drawer";
+import {arrayMoveImmutable} from 'array-move';
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Button from "@material-ui/core/Button"
-import styles from "./styles/NewPaletteFormStyles"
 import DraggableColorList from "./DraggableColorList";
-import {arrayMoveImmutable} from 'array-move';
 import ColorPickerForm from "./ColorPickerForm";
+import styles from "./styles/NewPaletteFormStyles"
+import seedColors from "./seedColors";
 
 class NewPaletteForm extends Component {
     static defaultProps = {
@@ -22,7 +23,7 @@ class NewPaletteForm extends Component {
         super(props)
         this.state = {
             open: true,
-            colors: this.props.palettes[0].colors
+            colors: seedColors[0].colors
         }
         this.addNewColor = this.addNewColor.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -73,12 +74,6 @@ class NewPaletteForm extends Component {
             isDuplicateColor = this.state.colors.some(color => color.name === randomColor.name)
         }
         this.setState({ colors: [...this.state.colors, randomColor] })
-    }
-
-    removeColor(colorName) {
-        this.setState({
-            colors: this.state.colors.filter(color => color.name !== colorName)
-        })
     }
 
     onSortEnd ({oldIndex, newIndex}) {
@@ -166,6 +161,7 @@ class NewPaletteForm extends Component {
                         removeColor={this.removeColor}
                         axis="xy"
                         onSortEnd={this.onSortEnd}
+                        distance={20}
                     />
                 </main>
             </div>
